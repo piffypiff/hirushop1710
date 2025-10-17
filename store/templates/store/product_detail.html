@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+<link rel="stylesheet" href="{% static 'store/style.css' %}">
+
+    <meta charset="UTF-8">
+    <title>{{ product.name }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f3f3f3; }
+        .container { width: 80%; margin: 30px auto; background: white; border-radius: 10px; padding: 20px;
+                     box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .product {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 30px;
+        }
+        img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .info h1 { margin: 0; }
+        .price { font-size: 22px; color: #009900; margin-top: 10px; font-weight: bold; }
+        a.back { display: inline-block; margin-top: 20px; text-decoration: none; color: #007bff; }
+        a.back:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="product">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% else %}
+            <img src="https://via.placeholder.com/300" alt="Нет фото">
+        {% endif %}
+        <div class="info">
+            <h1>{{ product.name }}</h1>
+            <p class="price">{{ product.price }} ₸</p>
+            <p>{{ product.description }}</p>
+           <p><strong>Категория:</strong> {{ product.category.name }}</p>
+        </div>
+    </div>
+    <a href="/" class="back">← Вернуться на главную</a>
+</div>
+</body>
+</html>
