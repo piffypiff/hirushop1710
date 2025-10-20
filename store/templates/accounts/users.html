@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи и статьи</title>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f6f6f6;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #222;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .user {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+        }
+        .user h2 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .user p {
+            color: #555;
+        }
+        .articles {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .article {
+            margin-bottom: 10px;
+        }
+        .article-title {
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: #222;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Список пользователей и их статьи</h1>
+    </header>
+
+    <div class="container">
+        {% for user in users %}
+            <div class="user">
+                <h2>{{ user.full_name }}</h2>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>О пользователе:</strong> {{ user.bio|default:"Нет описания" }}</p>
+
+                {% if user.articles.all %}
+                    <div class="articles">
+                        <h3>Статьи:</h3>
+                        {% for article in user.articles.all %}
+                            <div class="article">
+                                <p class="article-title">📝 {{ article.title }}</p>
+                                <p>{{ article.content|truncatewords:15 }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>Нет статей 😔</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <footer>
+        <p>© 2025 Интернет-магазин периферии</p>
+    </footer>
+</body>
+</html>
