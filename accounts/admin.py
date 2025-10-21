@@ -8,6 +8,11 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ("title", "author", "created_at")
+    
+from .models import Comment
+
+admin.site.register(Comment)
+
 
 
 # Register your models here.

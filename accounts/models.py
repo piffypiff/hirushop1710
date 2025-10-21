@@ -34,5 +34,27 @@ class Article(models.Model):
         verbose_name = "Статья"
         verbose_name_plural = "Статьи"
 
+from django.db import models
+
+# Комментарии к статьям
+class Comment(models.Model):
+    article = models.ForeignKey(
+        'accounts.Article',  # ссылаемся на Article из accounts
+        on_delete=models.CASCADE,
+        related_name='comments',
+        verbose_name="Статья"
+    )
+    author_name = models.CharField(max_length=100, verbose_name="Автор комментария")
+    text = models.TextField(verbose_name="Текст комментария")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+
+    def __str__(self):
+        return f"Комментарий от {self.author_name} к '{self.article.title}'"
+
+    class Meta:
+        verbose_name = "Комментарий"
+        verbose_name_plural = "Комментарии"
+
+
 
 # Create your models here.
