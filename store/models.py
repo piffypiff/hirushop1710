@@ -1,9 +1,8 @@
 from django.db import models
 
 
-# =========================
+
 # МОДЕЛЬ КАТЕГОРИИ
-# =========================
 class Category(models.Model):
     # Название категории (например: "Мышки", "Клавиатуры", "Коврики")
     name = models.CharField(max_length=100, unique=True, verbose_name="Название категории")
@@ -17,9 +16,7 @@ class Category(models.Model):
         verbose_name_plural = "Категории"       # Название модели во множественном числе
 
 
-# =========================
 # МОДЕЛЬ ТОВАРА
-# =========================
 class Product(models.Model):
     # Название товара (например: "Logitech GPX Superlight")
     name = models.CharField(max_length=100, verbose_name="Название товара")
