@@ -1,34 +1,223 @@
-<header>
-    <h1>🖱️ Магазин компьютерной периферии</h1>
-    <p>Мышки, клавиатуры, коврики — всё для игры и работы 💻</p>
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiru Shop — Компьютерная периферия</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
-    <!-- 🔹 Навигация по категориям -->
-    <nav>
-        <a href="#">Мышки</a>
-        <a href="#">Клавиатуры</a>
-        <a href="#">Коврики</a>
-    </nav>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Анимации */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Шапка */
+        header {
+            background: rgb(0, 0, 0);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 60px;
+            border-bottom: 1px solid #ddd;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .logo-img {
+            height: 70px;
+            width: auto;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            animation: fadeIn 1.5s ease-in;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        .search-box {
+            flex-grow: 1;
+            margin: 0 60px;
+            display: flex;
+            align-items: center;
+            animation: fadeIn 1.5s ease-in;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .search-box input:focus {
+            box-shadow: 0 0 8px rgba(0,123,255,0.3);
+        }
+
+        .categories {
+            display: flex;
+            gap: 25px;
+            animation: fadeIn 1.5s ease-in;
+        }
+
+        .categories a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 600;
+            transition: color 0.3s, transform 0.3s;
+            position: relative;
+        }
+
+        .categories a:hover {
+            color: #007bff;
+            transform: translateY(-3px);
+        }
+
+        /* Баннер */
+        .hero {
+            width: 100%;
+            text-align: center;
+            margin: 40px 0;
+            animation: fadeIn 1.5s ease-in;
+        }
+
+        .hero img {
+            width: 95%;
+            max-width: 1400px;
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+            transition: transform 0.4s ease, box-shadow 0.3s ease;
+        }
+
+        .hero img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Товары */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 25px;
+            padding: 40px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        /* Задержка для постепенного появления карточек */
+        .product-card:nth-child(1) { animation-delay: 0.2s; }
+        .product-card:nth-child(2) { animation-delay: 0.4s; }
+        .product-card:nth-child(3) { animation-delay: 0.6s; }
+        .product-card:nth-child(4) { animation-delay: 0.8s; }
+        .product-card:nth-child(5) { animation-delay: 1s; }
+
+        .product-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card img:hover {
+            transform: scale(1.05);
+        }
+
+        .product-card h3 {
+            font-size: 18px;
+            color: #333;
+            margin: 10px 0 5px;
+        }
+
+        .product-card .price {
+            font-weight: 600;
+            color: #007b00;
+            font-size: 16px;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="/" class="logo">
+        <img src="{% static 'store/logo.png' %}" alt="Hiru Shop" class="logo-img">
+    </a>
+
+    <div class="search-box">
+        <input type="text" placeholder="Я ищу...">
+    </div>
+
+    <div class="categories">
+        {% for cat in categories %}
+            <a href="{% url 'category_products' cat.id %}">{{ cat.name }}</a>
+        {% endfor %}
+    </div>
 </header>
 
-<!-- 🔥 Баннер -->
 <section class="hero">
-    <img src="{% static 'store/banner.jpg' %}" alt="Главный баннер" class="hero-image">
+    <img src="{% static 'store/banner.jpg' %}" alt="Главный баннер">
 </section>
 
-<!-- 🛒 Сетка товаров -->
 <div class="product-grid">
     {% for product in products %}
-    <div class="product-card">
-        <a href="{% url 'product_detail' product.id %}" style="text-decoration:none; color:inherit;">
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-            {% else %}
-                <img src="https://via.placeholder.com/200" alt="Нет изображения">
-            {% endif %}
-            <h2>{{ product.name }}</h2>
-            <p class="price">{{ product.price }} ₸</p>
-            <p>{{ product.description|truncatewords:12 }}</p>
-        </a>
-    </div>
+        <div class="product-card">
+            <a href="{% url 'product_detail' product.id %}" style="text-decoration:none; color:inherit;">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/200" alt="Нет изображения">
+                {% endif %}
+                <h3>{{ product.name }}</h3>
+                <p class="price">{{ product.price }} ₸</p>
+            </a>
+        </div>
+    {% empty %}
+        <p>Пока нет товаров 😔</p>
     {% endfor %}
 </div>
+
+</body>
+</html>

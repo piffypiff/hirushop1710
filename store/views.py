@@ -25,6 +25,58 @@ def product_detail(request, product_id):
     # Отображаем шаблон 'store/product_detail.html' и передаём туда товар
     return render(request, 'store/product_detail.html', {'product': product})
 
+from django.shortcuts import render, get_object_or_404
+from .models import Product, Category
+
+def index(request):
+    products = Product.objects.all()
+    categories = Category.objects.all()
+    return render(request, 'store/index.html', {'products': products, 'categories': categories})
+
+
+def category_products(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    products = category.products.all()
+    categories = Category.objects.all()
+    return render(request, 'store/category_products.html', {
+        'category': category,
+        'products': products,
+        'categories': categories,
+    })
+
+from django.shortcuts import render, get_object_or_404
+from .models import Product, Category
+
+
+def index(request):
+    products = Product.objects.all()
+    categories = Category.objects.all()
+    return render(request, 'store/index.html', {
+        'products': products,
+        'categories': categories
+    })
+
+
+def category_products(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    products = Product.objects.filter(category=category)
+    categories = Category.objects.all()
+    return render(request, 'store/category_products.html', {
+        'category': category,
+        'products': products,
+        'categories': categories
+    })
+
+
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    categories = Category.objects.all()
+    return render(request, 'store/product_detail.html', {
+        'product': product,
+        'categories': categories
+    })
+
+
 
 # Create your views here.
 # (Эта строка создаётся Django автоматически — можно оставить или удалить)
