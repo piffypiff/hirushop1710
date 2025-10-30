@@ -16,9 +16,9 @@
             overflow-x: hidden;
         }
 
-        /* Анимации */
+        /* 🔹 Анимации */
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+            from { opacity: 0; transform: translateY(25px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -32,7 +32,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Шапка */
+        /* 🔹 Шапка */
         header {
             background: rgb(0, 0, 0);
             display: flex;
@@ -51,7 +51,7 @@
             height: 70px;
             width: auto;
             transition: transform 0.3s ease, filter 0.3s ease;
-            animation: fadeIn 1.5s ease-in;
+            animation: fadeIn 1.2s ease-in;
         }
 
         .logo-img:hover {
@@ -64,7 +64,7 @@
             margin: 0 60px;
             display: flex;
             align-items: center;
-            animation: fadeIn 1.5s ease-in;
+            animation: fadeIn 1.2s ease-in;
         }
 
         .search-box input {
@@ -83,7 +83,7 @@
         .categories {
             display: flex;
             gap: 25px;
-            animation: fadeIn 1.5s ease-in;
+            animation: fadeIn 1.2s ease-in;
         }
 
         .categories a {
@@ -91,7 +91,6 @@
             color: #ffffff;
             font-weight: 600;
             transition: color 0.3s, transform 0.3s;
-            position: relative;
         }
 
         .categories a:hover {
@@ -99,7 +98,7 @@
             transform: translateY(-3px);
         }
 
-        /* Баннер */
+        /* 🔹 Баннер */
         .hero {
             width: 100%;
             text-align: center;
@@ -109,7 +108,7 @@
 
         .hero img {
             width: 95%;
-            max-width: 1400px;
+            max-width: 1600px;
             border-radius: 14px;
             box-shadow: 0 6px 18px rgba(0,0,0,0.15);
             transition: transform 0.4s ease, box-shadow 0.3s ease;
@@ -120,7 +119,7 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
 
-        /* Товары */
+        /* 🔹 Товары */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -128,6 +127,9 @@
             padding: 40px;
             max-width: 1300px;
             margin: 0 auto;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.5s; /* появление чуть после баннера */
         }
 
         .product-card {
@@ -137,16 +139,10 @@
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: fadeInUp 0.8s ease forwards;
             opacity: 0;
+            animation: fadeInUp 0.9s ease forwards;
+            animation-delay: 0.5s; /* все карточки одновременно */
         }
-
-        /* Задержка для постепенного появления карточек */
-        .product-card:nth-child(1) { animation-delay: 0.2s; }
-        .product-card:nth-child(2) { animation-delay: 0.4s; }
-        .product-card:nth-child(3) { animation-delay: 0.6s; }
-        .product-card:nth-child(4) { animation-delay: 0.8s; }
-        .product-card:nth-child(5) { animation-delay: 1s; }
 
         .product-card:hover {
             transform: translateY(-6px) scale(1.02);
@@ -177,6 +173,27 @@
             font-size: 16px;
         }
 
+        /* 🔹 Адаптивность */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 10px 20px;
+            }
+
+            .search-box {
+                margin: 10px 0;
+            }
+
+            .categories {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .product-grid {
+                padding: 20px;
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+        }
     </style>
 </head>
 <body>

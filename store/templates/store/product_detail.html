@@ -1,49 +1,244 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    {% load static %}
-<link rel="stylesheet" href="{% static 'store/style.css' %}">
-
     <meta charset="UTF-8">
-    <title>{{ product.name }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} — Hiru Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: Arial, sans-serif; background: #f3f3f3; }
-        .container { width: 80%; margin: 30px auto; background: white; border-radius: 10px; padding: 20px;
-                     box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        .product {
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #000;
+            color: white;
             display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            gap: 30px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 60px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
         }
-        img {
-            width: 300px;
-            height: 300px;
-            object-fit: cover;
+
+        .logo-img {
+            height: 60px;
+            transition: transform 0.3s ease;
+        }
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+
+        .categories {
+            display: flex;
+            gap: 25px;
+        }
+
+        .categories a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .categories a:hover {
+            color: #007bff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            display: flex;
+            gap: 60px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 40px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .product-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .product-image img {
+            width: 100%;
+            max-width: 450px;
             border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        .info h1 { margin: 0; }
-        .price { font-size: 22px; color: #009900; margin-top: 10px; font-weight: bold; }
-        a.back { display: inline-block; margin-top: 20px; text-decoration: none; color: #007bff; }
-        a.back:hover { text-decoration: underline; }
+
+        .product-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-info h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        .product-info p {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #007b00;
+            margin-top: 20px;
+        }
+
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-add {
+            background: #000;
+            color: white;
+        }
+
+        .btn-add:hover {
+            background: #333;
+        }
+
+        .btn-buy {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-buy:hover {
+            background: #005ecf;
+        }
+
+        /* 🔹 Характеристики */
+        .specs {
+            margin-top: 40px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px 25px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+            animation: fadeIn 1s ease;
+        }
+
+        .specs h2 {
+            margin-bottom: 15px;
+            font-size: 22px;
+            color: #222;
+        }
+
+        .specs table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .specs tr {
+            border-bottom: 1px solid #e0e0e0;
+            transition: background 0.2s ease;
+        }
+
+        .specs tr:hover {
+            background: #f0f8ff;
+        }
+
+        .specs td {
+            padding: 10px 0;
+        }
+
+        .specs td:first-child {
+            font-weight: 600;
+            color: #333;
+            width: 40%;
+        }
+
+        .specs td:last-child {
+            color: #555;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
+
+<header>
+    <a href="/">
+        <img src="{% static 'store/logo.png' %}" alt="Hiru Shop" class="logo-img">
+    </a>
+    <div class="categories">
+        {% for cat in categories %}
+            <a href="{% url 'category_products' cat.id %}">{{ cat.name }}</a>
+        {% endfor %}
+    </div>
+</header>
+
 <div class="container">
-    <div class="product">
+    <div class="product-image">
         {% if product.image %}
             <img src="{{ product.image.url }}" alt="{{ product.name }}">
         {% else %}
-            <img src="https://via.placeholder.com/300" alt="Нет фото">
+            <img src="https://via.placeholder.com/400" alt="Нет изображения">
         {% endif %}
-        <div class="info">
+    </div>
+
+    <div class="product-info">
+        <div>
             <h1>{{ product.name }}</h1>
-            <p class="price">{{ product.price }} ₸</p>
             <p>{{ product.description }}</p>
-           <p><strong>Категория:</strong> {{ product.category.name }}</p>
+            <div class="price">{{ product.price }} ₸</div>
+
+            {% if product.specifications.all %}
+            <div class="specs">
+                <h2>Характеристики</h2>
+                <table>
+                    {% for spec in product.specifications.all %}
+                    <tr>
+                        <td>{{ spec.name }}</td>
+                        <td>{{ spec.value }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="buttons">
+            <button class="btn btn-add">Добавить в корзину</button>
+            <button class="btn btn-buy">Купить сейчас</button>
         </div>
     </div>
-    <a href="/" class="back">← Вернуться на главную</a>
 </div>
+
 </body>
 </html>
